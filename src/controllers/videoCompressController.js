@@ -1,10 +1,7 @@
-import { fork } from 'child_process';
-import status from 'http-status';
-import filesystem from 'fs';
-import responseHelper from '../helpers/responseHelper.js';
-
-const { INTERNAL_SERVER_ERROR, BAD_REQUEST } = status;
-
+const filesystem = require("fs");
+const { fork } = require("child_process");
+const responseHelper = require("../helpers/responseHelper.js");
+const { INTERNAL_SERVER_ERROR, BAD_REQUEST } = require("http-status");
 class VideoCompressController {
   static async compressVideo(req, res) {
     try {
@@ -19,7 +16,6 @@ class VideoCompressController {
 
       const { name } = video;
       const child = fork("video.js");
-
       child.send({ tempFilePath, name, crf });
 
       child.on("message", (data) => {
@@ -41,14 +37,15 @@ class VideoCompressController {
             const chunksize = (end - start) + 1;
 
             const file = filesystem.createReadStream(path, { start, end });
-            res.writeHead(statusCode, { 'Content-Range': `bytes ${start}-${end}/${total}`, 'Accept-Ranges': 'bytes', 'Content-Length': chunksize, 'Content-Type': 'video/mp4' });
+            res.writeHead(statusCode, { 'Content-Range': `bytes ${start}-${end}/${total}`, 'Accept-Ranges': 'bytes', 'Content-Length': chunksize, 'Content-Type':  `${video.mimetype}` });
             file.pipe(res);
           }
 
-          res.writeHead(statusCode, { 'Content-Length': videoSize, 'Content-Type': 'video/mp4' });
+          res.writeHead(statusCode, { 'Content-Length': videoSize, 'Content-Type': `${video.mimetype}` });
           filesystem.createReadStream(path).pipe(res);
         }
 
+        console.log(percentage)
         io.emit('progressPercentages', percentage);
       });
     } catch (error) {
@@ -87,4 +84,4 @@ class VideoCompressController {
   }
 }
 
-export default VideoCompressController;
+module.exports = VideoCompressController;

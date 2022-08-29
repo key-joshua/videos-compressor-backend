@@ -1,11 +1,10 @@
-import ffmpegPath from '@ffmpeg-installer/ffmpeg';
-import ffmpeg from 'fluent-ffmpeg';
-import filesystem from 'fs';
-import status from 'http-status';
+const filesystem = require('fs');
+const ffmpeg = require('fluent-ffmpeg')
+const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
+const ffprobePath = require('@ffprobe-installer/ffprobe').path;
 
 ffmpeg.setFfmpegPath(ffmpegPath);
-
-const { INTERNAL_SERVER_ERROR } = status;
+ffmpeg.setFfprobePath(ffprobePath);
 
 let totalTime;
 process.on("message", (payload) => {
@@ -23,13 +22,14 @@ process.on("message", (payload) => {
   };
 
   ffmpeg(tempFilePath)
+    .fps(30)
     .videoCodec('libx265')
     .addOptions([crf])
     .on("end", () => {
-      endProcess({ statusCode: OK, statusMessage: "Video compressed successfully" });
+      endProcess({ statusCode: 200, statusMessage: "Video compressed successfully" });
     })
     .on("error", (err) => {
-      endProcess({ statusCode: INTERNAL_SERVER_ERROR, statusMessage: err.message });
+      endProcess({ status: 'error', statusCode: 500, statusMessage: err.message, percentage: 0 });
     })
     .on('codecData', (data) => {
       totalTime = parseInt(data.duration.replace(/:/g, ''));

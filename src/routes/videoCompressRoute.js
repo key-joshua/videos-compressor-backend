@@ -1,6 +1,7 @@
-import fileUpload from 'express-fileupload';
-import Router from 'express';
-import videoCompressController from '../controllers/videoCompressController.js';
+const videoCompressController = require("../controllers/videoCompressController.js");
+const fileUpload = require("express-fileupload");
+const Router = require("express");
+
 
 const videoCompressRoute = Router();
 videoCompressRoute
@@ -8,4 +9,4 @@ videoCompressRoute
   .get('/get-compressed-video', videoCompressController.getCompressedVideo)
   .post('/compress-video/:percentage', fileUpload({ tempFileDir: "temp", useTempFiles: true }), videoCompressController.compressVideo);
 
-export default videoCompressRoute;
+module.exports = videoCompressRoute;

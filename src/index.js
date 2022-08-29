@@ -1,9 +1,10 @@
-import connectClientIO from 'socket.io';
-import express from 'express';
-import dotenv from 'dotenv';
-import http from 'http';
-import cors from 'cors';
-import routes from './routes/index.js';
+const routes = require("./routes/index.js");
+const connectClientIO = require("socket.io");
+const express = require("express");
+const dotenv = require("dotenv");
+const http = require("http");
+const cors = require("cors");
+
 
 const app = express();
 
@@ -24,5 +25,3 @@ io.on('connection', (socket) => {
 });
 
 server.listen(port, () => { console.log(`server is running on port ${port}`); });
-
-export default app;
