@@ -5,6 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "lint": "eslint ./src",
     "kill": "Taskkill /IM node.exe /F",
     "server": "nodemon --exec babel-node ./src/index",
     "start": "cross-env NODE_ENV=production npx babel-node ./src/index.js"
@@ -23,6 +24,7 @@
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.1",
+    "eslint": "^8.23.0",
     "express": "^4.17.1",
     "express-fileupload": "^1.4.0",
     "fluent-ffmpeg": "^2.1.2",
