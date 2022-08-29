@@ -6,8 +6,8 @@
   "scripts": {
     "lint": "eslint ./src",
     "kill": "Taskkill /IM node.exe /F",
-    "server": "nodemon ./src/index",
-    "start": "cross-env NODE_ENV=production npx babel-node ./src/index.js"
+    "start": "nodemon ./src/index",
+    "server": "cross-env NODE_ENV=production npx babel-node ./src/index.js"
   },
   "keywords": [],
   "author": "",
