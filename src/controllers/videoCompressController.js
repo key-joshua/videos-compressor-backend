@@ -1,4 +1,4 @@
-import responseHelper from '../Helpers/responseHelper.js';
+import responseHelper from '../helpers/responseHelper.js';
 import { fork } from 'child_process';
 import  status  from 'http-status';
 import filesystem from 'fs';
