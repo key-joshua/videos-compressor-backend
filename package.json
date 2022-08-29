@@ -1,0 +1,33 @@
+{
+  "name": "videos-compressor-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "server": "nodemon --exec babel-node ./src/index",
+    "kill": "Taskkill /IM node.exe /F",
+    "start": "cross-env NODE_ENV=production npx babel-node ./src/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/cli": "^7.18.10",
+    "@babel/core": "^7.18.13",
+    "@babel/node": "^7.18.10",
+    "@babel/preset-env": "^7.18.10",
+    "@babel/register": "^7.18.9",
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
+    "babel-loader": "^8.2.5",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.0.1",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.4.0",
+    "fluent-ffmpeg": "^2.1.2",
+    "http-status": "^1.5.2",
+    "nodemon": "^2.0.19",
+    "socket.io": "^2.3.0"
+  }
+}
