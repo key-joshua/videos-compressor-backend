@@ -5,15 +5,23 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint ./src",
-    "start": "nodemon ./src/index",
-    "kill": "Taskkill /IM node.exe /F"
+    "kill": "Taskkill /IM node.exe /F",
+    "start": "cross-env babel-node ./bin/www",
+    "server": "nodemon --exec babel-node ./bin/www"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/cli": "^7.18.10",
+    "@babel/core": "^7.18.13",
+    "@babel/node": "^7.18.10",
+    "@babel/plugin-transform-runtime": "^7.18.10",
+    "@babel/preset-env": "^7.18.10",
+    "@babel/register": "^7.18.9",
     "@ffmpeg-installer/ffmpeg": "^1.1.0",
     "@ffprobe-installer/ffprobe": "^1.4.1",
+    "babel-loader": "^8.2.5",
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.1",
