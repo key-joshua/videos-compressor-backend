@@ -10,7 +10,13 @@ const cors = require("cors");
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+
+const corsOptions ={
+  credentials:true,
+  optionSuccessStatus:200,
+  origin:'http://localhost:3001', 
+}
+app.use(cors(corsOptions));
 
 const io = connectClientIO();
 global.io = io;
