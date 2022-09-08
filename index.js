@@ -10,13 +10,7 @@ const cors = require("cors");
 const app = express();
 
 app.use(express.json());
-
-const corsOptions ={
-  credentials:true,
-  optionSuccessStatus:200,
-  origin:'https://video-compressor.netlify.app', 
-}
-app.use(cors(corsOptions));
+app.use(cors());
 
 const io = connectClientIO();
 global.io = io;
