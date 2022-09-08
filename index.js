@@ -40,7 +40,7 @@ app.post('/api/video/compress-video/:percentage', fileUpload({ tempFileDir: "tem
         return responseHelper.response(res);
         }
 
-        io.emit('progressPercentages', percentages);
+        // io.emit('progressPercentages', percentages);
       });
     } catch (error) {
       responseHelper.handleError(INTERNAL_SERVER_ERROR, error.toString());
