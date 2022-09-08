@@ -14,7 +14,7 @@ app.use(express.json());
 const corsOptions ={
   credentials:true,
   optionSuccessStatus:200,
-  origin:'http://localhost:3001', 
+  origin:'https://video-compressor.netlify.app', 
 }
 app.use(cors(corsOptions));
 
