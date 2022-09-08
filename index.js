@@ -20,7 +20,7 @@ app.post('/api/video/compress-video/:percentage', fileUpload({ tempFileDir: "tem
   try {
     const { video } = req.files;
       const { tempFilePath } = video;
-      const crf = req.params.percentage === '20' ? "-crf 36" : req.params.percentage === '30' ? "-crf 32" : "-crf 28";
+      const crf = req.params.percentage === '20' ? "-crf 36" : req.params.percentage === '30' ? "-crf 32" : "-crf 24";
 
       if (!video && !tempFilePath) {
         responseHelper.handleError(BAD_REQUEST, 'Something wrong occured, please upload file and try again');
@@ -56,7 +56,7 @@ app.get('/api/video/get-compressed-video/:fileName/:fileType/:mimeType', async(r
     const stat = filesystem.statSync(path);
     const fileSize = stat.size;
 
-    const header = { 'Content-Length': fileSize, 'Content-Type': fileType };
+    const header = { 'Content-Length': fileSize, 'Content-Type': fileType, filename: req.params.fileName, download: req.params.fileName };
     res.writeHead(200, header);
     res.end(fileBuffer);
   } catch (error) {

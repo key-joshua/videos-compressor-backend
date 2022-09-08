@@ -23,8 +23,7 @@ process.on("message", (payload) => {
 
   ffmpeg(tempFilePath)
     .fps(30)
-    .videoFilters('setpts=0.5*PTS')
-    .addOptions(['-c:v libx265', '-b:v 600k', `${crf}`, '-tune fastdecode', '-preset ultrafast', '-c:a copy'])
+    .addOptions(['-c:v libx265', '-b:v 600k', `${crf}`, '-preset ultrafast', '-c:a copy'])
     .on("error", (err) => {
       endProcess({ status: 'error', statusCode: 500, statusMessage: err.message, percentage: 0 });
     })
