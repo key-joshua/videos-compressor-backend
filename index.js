@@ -65,7 +65,7 @@ app.get('/api/video/get-compressed-video/:fileName/:fileType/:mimeType', async(r
   }
 });
 
-app.get('**', (req, res) => res.status(200).json({ status: 200, data: 'Welcome to Video Heritage Feed Backend' }));
+app.get('**', (req, res) => res.status(200).json({ status: 200, data: 'Welcome to Video Compressor' }));
 
 export { io };
 module.exports = app;
