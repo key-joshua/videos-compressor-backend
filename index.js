@@ -2,6 +2,7 @@ const { INTERNAL_SERVER_ERROR, BAD_REQUEST } = require("http-status");
 const responseHelper = require("./responseHelper.js");
 const { fork } = require("child_process");
 const filesystem = require("fs");
+const dotenv = require("dotenv");
 
 const fileUpload = require("express-fileupload");
 const connectClientIO = require("socket.io");
@@ -11,14 +12,21 @@ const app = express();
 
 app.use(express.json());
 app.use(cors());
+dotenv.config();
+
 
 const io = connectClientIO();
 global.io = io;
 app.io = io;
 
-app.post('/api/video/compress-video/:percentage', fileUpload({ tempFileDir: "temp", useTempFiles: true }), (req, res) => {
+io.on('connection', (socket) => {
+  console.log('User connected and joined successfully');
+  socket.on('userId', userId =>  socket.join(userId));
+});
+
+app.post('/api/video/compress-video/:percentage/:requestedUserId', fileUpload({ tempFileDir: "temp", useTempFiles: true }), (req, res) => {
   try {
-    const { video } = req.files;
+      const { video } = req.files;
       const { tempFilePath } = video;
       const crf = req.params.percentage === '20' ? "-crf 36" : req.params.percentage === '30' ? "-crf 32" : "-crf 24";
 
@@ -40,7 +48,7 @@ app.post('/api/video/compress-video/:percentage', fileUpload({ tempFileDir: "tem
         return responseHelper.response(res);
         }
 
-        io.emit('progressPercentages', percentages);
+        io.sockets.in(req.params.requestedUserId).emit('progressPercentages', percentages);
       });
     } catch (error) {
       responseHelper.handleError(INTERNAL_SERVER_ERROR, error.toString());
@@ -48,7 +56,7 @@ app.post('/api/video/compress-video/:percentage', fileUpload({ tempFileDir: "tem
     }
   });
 
-app.get('/api/video/get-compressed-video/:fileName/:fileType/:mimeType', async(req, res) => {
+app.get('/api/video/get-compressed-video/:fileType/:mimeType/:fileName', async(req, res) => {
   try {
     const fileType = `${req.params.fileType}/${req.params.mimeType}`;
     const path = `${__dirname}/temp/${req.params.fileName}`;
@@ -65,7 +73,7 @@ app.get('/api/video/get-compressed-video/:fileName/:fileType/:mimeType', async(r
   }
 });
 
-app.get('**', (req, res) => res.status(200).json({ status: 200, data: 'Welcome to Video Compressor' }));
+app.get('**', (req, res) => res.status(200).json({ status: 200, data: 'Welcome to Heritage Feeds' }));
 
 export { io };
 module.exports = app;
